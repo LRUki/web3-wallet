@@ -1,25 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Web3ReactProvider } from "@web3-react/core";
+import { Web3Provider } from "@ethersproject/providers";
+import "antd/dist/antd.css";
+import { POLLING_INTERVAL } from "./screen/wallet/connectors";
+import { HomeScreenContainer } from "./screen/home/home-screen.container";
+
+const getLibrary = (provider: any): Web3Provider => {
+  const library = new Web3Provider(provider);
+  library.pollingInterval = POLLING_INTERVAL;
+  return library;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <HomeScreenContainer />
+    </Web3ReactProvider>
   );
 }
 
