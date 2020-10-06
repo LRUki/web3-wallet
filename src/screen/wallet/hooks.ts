@@ -1,6 +1,6 @@
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
-import { injected } from "./connectors";
+import { metamask } from "./connectors";
 import { Web3Provider } from "@ethersproject/providers";
 
 export const useAuthorizedMetamask = () => {
@@ -12,9 +12,9 @@ export const useAuthorizedMetamask = () => {
     const attemptToConnect = async () => {
       setAttempting(true);
       try {
-        const isAuthorized = await injected.isAuthorized();
+        const isAuthorized = await metamask.isAuthorized();
         if (!active && isAuthorized) {
-          activate(injected);
+          activate(metamask);
         }
       } catch (err) {
         alert(err);
@@ -31,32 +31,28 @@ export const useAuthorizedMetamask = () => {
 //subscribe to listener iff metamask exists
 export const useSubscribeToEthereum = (subscribe: boolean) => {
   const { activate } = useWeb3React();
-  const [count, setCount] = useState(0); //without rerender error will be thrown
 
   useEffect(() => {
     const { ethereum } = window as any;
     if (ethereum && ethereum.on && subscribe) {
       const handleConnect = () => {
         console.log("Handling 'connect' event");
-        activate(injected);
-        setCount((count) => count + 1);
+        // activate(injected);
       };
       const handleChainChanged = (chainId: number) => {
         console.log("Handling 'chainChanged' event with payload", chainId);
-        activate(injected);
-        setCount((count) => count + 1);
+        // activate(injected);
       };
       const handleAccountsChanged = (accounts: string[]) => {
         console.log("Handling 'accountsChanged' event with payload", accounts);
         if (accounts.length > 0) {
-          activate(injected);
-          setCount((count) => count + 1);
+          // activate(injected);
         }
       };
       const handleNetworkChanged = (networkId: string | number) => {
         console.log("Handling 'networkChanged' event with payload", networkId);
-        activate(injected);
-        setCount((count) => count + 1);
+        window.location.reload();
+        // activate(injected);
       };
 
       ethereum.on("connect", handleConnect);
@@ -74,5 +70,4 @@ export const useSubscribeToEthereum = (subscribe: boolean) => {
       };
     }
   }, [activate, subscribe]);
-  return count;
 };

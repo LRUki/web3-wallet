@@ -1,13 +1,13 @@
 import { useWeb3React } from "@web3-react/core";
-import { injected, walletconnect } from "./connectors";
+import { metamask, walletconnect } from "./connectors";
 import React, { FC } from "react";
 import { SelectWallet, WalletType } from "./select-wallet.screen";
 export const SelectWalletContainer: FC<{}> = () => {
-  const { activate, active } = useWeb3React();
+  const { activate, active, deactivate } = useWeb3React();
   const onClick = (wallet: WalletType) => {
     switch (wallet) {
       case "Metamask":
-        activate(injected, (err) => {
+        activate(metamask, (err) => {
           alert(err);
         });
         break;

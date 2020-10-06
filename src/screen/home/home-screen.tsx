@@ -8,14 +8,8 @@ type Props = {
   active: boolean;
   deactivate: () => void;
   attempting: boolean;
-  count: number; //this count is just for preventing react-web3 to throw error... better workarounds?
 };
-export const HomeScreen: FC<Props> = ({
-  active,
-  deactivate,
-  attempting,
-  count,
-}) => {
+export const HomeScreen: FC<Props> = ({ active, deactivate, attempting }) => {
   return (
     <View>
       <Header />
@@ -24,7 +18,7 @@ export const HomeScreen: FC<Props> = ({
         This is a demonstartion of connecting a wallet(Metamask & wallet
         connect)
         <View margin="40px">
-          {attempting ? "wallet permitted!" : <Account />}
+          <Account />
 
           <Balance />
 
@@ -32,7 +26,6 @@ export const HomeScreen: FC<Props> = ({
 
           <ChainId />
         </View>
-        <View>Metamask network chage event count :{count}</View>
         {active && (
           <Button
             color="blue"
